@@ -8,10 +8,9 @@ import { MatomoInjector } from 'ngx-matomo';
 })
 export class AppComponent {
   title = 'sample-angular';
-  constructor(
-    private matomoInjector: MatomoInjector
-  ) {
-    this.matomoInjector.init('http://13.233.206.107/', 1);
+  constructor(private matomoInjector: MatomoInjector, ) {
+    this.matomoInjector.init('http://65.2.130.59/', 1);
   }
-}
 
+
+}

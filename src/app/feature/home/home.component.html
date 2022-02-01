@@ -1,2 +1,18 @@
 <p>home works!</p>
 <button (click)="matomoClick()">Track Motmo</button>
+<div>&nbsp;</div>
+<form [formGroup]="userForm" (ngSubmit)="submitUserForm()" [noValidate]="false">
+    <label for="username">Username: &nbsp;</label>
+    <input type="text" id="username" formControlName="username">
+    <div>&nbsp;</div>
+    <label for="model">Model: &nbsp;</label>
+    <input type="text" id="model" formControlName="model">
+    <div>&nbsp;</div>
+    <label for="series">Series: &nbsp;</label>
+    <input type="text" id="series" formControlName="series">
+    <div>&nbsp;</div>
+    <label for="year">Year: &nbsp;</label>
+    <input type="text" id="year" formControlName="year">
+    <div>&nbsp;</div>
+    <button type="submit">Submit</button>
+</form>

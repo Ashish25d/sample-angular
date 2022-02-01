@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatomoTracker } from 'ngx-matomo';
 
 @Component({
   selector: 'app-next',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NextComponent implements OnInit {
 
-  constructor() { }
+  constructor(private matomoTracker: MatomoTracker) { }
 
   ngOnInit(): void {
+    this.matomoTracker.trackPageView('Next')
   }
 
 }

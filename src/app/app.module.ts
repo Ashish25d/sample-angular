@@ -8,6 +8,7 @@ import { ErrorComponent } from './feature/error/error.component';
 import { NextComponent } from './feature/next/next.component';
 import { PrevComponent } from './feature/prev/prev.component';
 import { MatomoModule } from 'ngx-matomo';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MatomoModule } from 'ngx-matomo';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatomoModule
+    MatomoModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
