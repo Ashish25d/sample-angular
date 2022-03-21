@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatomoTracker } from 'ngx-matomo';
 
 @Component({
   selector: 'app-prev',
@@ -9,10 +8,9 @@ import { MatomoTracker } from 'ngx-matomo';
 export class PrevComponent implements OnInit {
 
   
-  constructor(private matomoTracker: MatomoTracker) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.matomoTracker.trackPageView('Prev')
   }
 
 }

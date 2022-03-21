@@ -1,48 +1,60 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatomoTracker } from 'ngx-matomo';
+import { MatomoService } from 'src/app/service/matomo/matomo.service';
+import { CustomActionDimesion, CustomVisitDimension } from '../../model/enum'
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [MatomoTracker]
 })
 export class HomeComponent implements OnInit {
-  defaultUsername = 'Ashish007d';
   userForm: FormGroup = new FormGroup(
     {
-      username: new FormControl(this.defaultUsername, { validators: [Validators.required] }),
-      model: new FormControl('N101', { validators: [Validators.required] }),
-      series: new FormControl('Nexa', { validators: [Validators.required] }),
-      year: new FormControl('2021', { validators: [Validators.required] }),
+      username: new FormControl('', { validators: [Validators.required] }),
+      name: new FormControl('', { validators: [Validators.required] }),
+      designation: new FormControl('', { validators: [Validators.required] }),
+      age: new FormControl('', { validators: [Validators.required] })
+    }
+  );
+  actionForm: FormGroup = new FormGroup(
+    {
+      eventName: new FormControl('', { validators: [Validators.required] }),
+      model: new FormControl('', { validators: [Validators.required] }),
+      series: new FormControl('', { validators: [Validators.required] }),
+      year: new FormControl('', { validators: [Validators.required] }),
     }
   );
 
-  constructor(private matomoTracker: MatomoTracker) { }
+  constructor(private matomoService: MatomoService) { }
 
   ngOnInit(): void {
-    this.matomoTracker.setUserId(this.defaultUsername);
-    this.matomoTracker.trackPageView('Home');
-  }
-
-  matomoClick(): void {
-    this.matomoTracker.setCustomDimension(1, 'Ashish Dhodare');
-    this.matomoTracker.setCustomDimension(2, 'Specialist Programmer');
-    // this.matomoTracker.setCustomDimension(3, 'Specialist Programmer');
-    this.matomoTracker.trackEvent('Cat', 'Act', 'Nam', 2121);
-    this.matomoTracker.trackPageView('Home');
   }
 
   submitUserForm() {
     if (this.userForm.valid) {
-      this.matomoTracker.setUserId(this.userForm.value.username);
-      this.matomoTracker.setCustomDimension(4, this.userForm.value.model);
-      this.matomoTracker.setCustomDimension(5, this.userForm.value.series);
-      this.matomoTracker.setCustomDimension(6, this.userForm.value.year);
-      this.matomoTracker.trackPageView('Home');
+      const userInfo = {
+        [CustomVisitDimension.Fullname]: this.userForm.value.name,
+        [CustomVisitDimension.Designation]: this.userForm.value.designation,
+        [CustomVisitDimension.Age]: this.userForm.value.age
+      };
+      this.matomoService.setUserId(this.userForm.value.username, userInfo, 'Home');
     } else {
-      console.log(this.userForm.controls, 'Form is invalid');
+      console.log(this.userForm.controls, 'User Form is invalid');
+    }
+  }
+
+  submitActionForm() {
+    if (this.actionForm.valid) {
+      const actionDetail = { Category: 'Attachment', Action: 'Download', Name: this.actionForm.value.eventName };
+      const customDimesion = {
+        [CustomActionDimesion.Model]: this.actionForm.value.model,
+        [CustomActionDimesion.Series]: this.actionForm.value.series,
+        [CustomActionDimesion.Year]: this.actionForm.value.year
+      }
+      this.matomoService.trackEvent(actionDetail, customDimesion);
+    } else {
+      console.log(this.actionForm.controls, 'Action Form is invalid');
     }
   }
 }
